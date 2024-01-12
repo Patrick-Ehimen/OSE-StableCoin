@@ -1,24 +1,24 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.19;
+pragma solidity 0.8.20;
 
 import {ERC20, ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @title A decentralized stablecoin
-/// @author 0xOse
+/// @author 0xOse (https://www.linkedin.com/in/patrick-ehimen/)
 /// @dev A decentralized stablecoin contract
 /// @notice This is the contract meant to be owned by ODSCEngine. It is a ERC20 token that can be minted and burned by the ODSCEngine smart contract
 /// collateral: wBTC & wETH
 //  minting: Algorithmetic
 //  relative stablity: Pegged to USD
 
-contract DarthDecentralizedStableCoin is ERC20Burnable, Ownable {
+abstract contract DarthDecentralizedStableCoin is ERC20Burnable, Ownable {
     error DarthDecentralizedStableCoin_AmountMustBeMoreThanZero();
     error DarthDecentralizedStableCoin_BurnAmountExceedsBalance();
     error DarthDecentralizedStableCoin_NotZeroAddress();
 
-    constructor() ERC20("Darth", "DAT") {}
+    constructor() ERC20("Darth Stablecoin", "DAT") {}
 
     /**
      * @dev Burns a specific amount of tokens.
@@ -29,7 +29,7 @@ contract DarthDecentralizedStableCoin is ERC20Burnable, Ownable {
         if (_amountToBurn <= 0) {
             revert DarthDecentralizedStableCoin_AmountMustBeMoreThanZero();
         }
-        if (_amountToBurn < 0) {
+        if (balance < 0) {
             revert DarthDecentralizedStableCoin_BurnAmountExceedsBalance();
         }
         super.burn(_amountToBurn);
