@@ -2,7 +2,7 @@
 
 pragma solidity 0.8.20;
 
-import {ERC20, ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import {ERC20Burnable, ERC20} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @title A decentralized stablecoin
@@ -12,8 +12,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 /// collateral: wBTC & wETH
 //  minting: Algorithmetic
 //  relative stablity: Pegged to USD
-
-abstract contract DarthDecentralizedStableCoin is ERC20Burnable, Ownable {
+contract DarthDecentralizedStableCoin is ERC20Burnable, Ownable {
     error DarthDecentralizedStableCoin_AmountMustBeMoreThanZero();
     error DarthDecentralizedStableCoin_BurnAmountExceedsBalance();
     error DarthDecentralizedStableCoin_NotZeroAddress();
@@ -45,7 +44,7 @@ abstract contract DarthDecentralizedStableCoin is ERC20Burnable, Ownable {
         address _to,
         uint256 _amount
     ) external onlyOwner returns (bool) {
-        if (_to == 0) {
+        if (_to == address(0)) {
             revert DarthDecentralizedStableCoin_NotZeroAddress();
         }
         if (_amount <= 0) {
